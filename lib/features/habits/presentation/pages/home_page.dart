@@ -7,6 +7,7 @@ import '../../../../shared/widgets/heatmap.dart';
 import '../../../../shared/widgets/summary_card.dart';
 import '../providers/habit_provider.dart';
 import 'add_habit_page.dart';
+import 'habit_detail_page.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -76,7 +77,11 @@ class HomePage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const HeatmapWidget(),
+              HeatmapWidget(
+                completedDates: habits
+                    .expand((h) => h.completedDates)
+                    .toList(),
+              ),
               const SizedBox(height: 20),
               const Text(
                 'TODAY\'S HABITS',
@@ -89,12 +94,20 @@ class HomePage extends ConsumerWidget {
               Expanded(
                 child: ListView.builder(
                   itemCount: habits.length,
-                  itemBuilder: (context, index) => HabitCard(
-                    name: habits[index].name,
-                    subtitle: habits[index].subtitle,
-                    progress: habits[index].progress,
-                    streak: habits[index].streak,
-                    color: habits[index].color,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => HabitDetailPage(habit: habits[index]),
+                      ),
+                    ),
+                    child: HabitCard(
+                      name: habits[index].name,
+                      subtitle: habits[index].subtitle,
+                      progress: habits[index].progress,
+                      streak: habits[index].streak,
+                      color: habits[index].color,
+                    ),
                   ),
                 ),
               ),

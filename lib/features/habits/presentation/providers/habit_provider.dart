@@ -36,11 +36,27 @@ class HabitNotifier extends StateNotifier<List<Habit>>{
     state = [...state, habit];
   }
   void toggleDone(String id){
+    final today = DateTime.now();
     state = state.map((habit) {
-      if(habit.id == id){
-        return habit.copyWith(isDone: !habit.isDone);
-      }
-      return habit;
+      if(habit.id != id) return habit;
+
+      final alreadyDone = habit.completedDates.any((d) =>
+          d.year == today.year &&
+          d.month == today.month &&
+          d.day == today.day
+      );
+      final updatedDates = alreadyDone
+          ? habit.completedDates
+          .where((d) => !(d.year == today.year &&
+          d.month == today.month &&
+          d.day == today.day))
+          .toList()
+          : [...habit.completedDates, today];
+
+      return habit.copyWith(
+        isDone: !alreadyDone,
+        completedDates: updatedDates,
+      );
     }).toList();
   }
 }

@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 
 class HeatmapWidget extends StatelessWidget {
-  const HeatmapWidget({super.key});
+  final List<DateTime> completedDates;
+  const HeatmapWidget({super.key, required this.completedDates});
 
   @override
   Widget build(BuildContext context) {
-    // 0 = empty, 1 = light, 2 = medium, 3 = full
-    final data = [
-      3,1,2,3,0,2,3,
-      1,3,2,3,3,1,2,
-      3,0,2,3,1,3,2,
-      3,2,1,3,3,2,3,
-    ];
+    final last30 = List.generate(30, (i) =>
+        DateTime.now().subtract(Duration(days: 29 - i)));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,12 +23,16 @@ class HeatmapWidget extends StatelessWidget {
         Wrap(
           spacing: 5,
           runSpacing: 5,
-          children: data.map((level) {
+          children: last30.map((date) {
+            final done = completedDates.any((d) =>
+            d.year == date.year &&
+                d.month == date.month &&
+                d.day == date.day);
             return Container(
-              width: 30,
-              height: 30,
+              width: 32,
+              height: 32,
               decoration: BoxDecoration(
-                color: _colorForLevel(level),
+                color: done ? AppColors.accent : AppColors.surface,
                 borderRadius: BorderRadius.circular(6),
               ),
             );
@@ -41,6 +41,7 @@ class HeatmapWidget extends StatelessWidget {
       ],
     );
   }
+}
 
   Color _colorForLevel(int level) {
     switch (level) {
@@ -50,4 +51,3 @@ class HeatmapWidget extends StatelessWidget {
       default: return AppColors.surface;
     }
   }
-}
