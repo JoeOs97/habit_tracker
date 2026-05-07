@@ -1,16 +1,31 @@
-# portfolio
+# Habit Tracker
 
-A new Flutter project.
+A beautifully designed habit tracking app built with Flutter. Track your daily habits, visualize streaks, and build consistency over time.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+| Home | Add Habit | Detail | Stats |
+|------|-----------|--------|-------|
+| ![img.png](img.png)![Home](screenshots/home.png) | ![img_1.png](img_1.png)![Add](screenshots/add.png) | ![img_2.png](img_2.png)![Detail](screenshots/detail.png) | ![img_3.png](img_3.png)![Stats](screenshots/stats.png) |
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Create and manage daily habits
+- Real-time streak tracking
+- 30-day completion heatmap
+- Weekly completion bar chart
+- Color-coded habit categories
+- Custom progress ring animations
+- Persistent state with Riverpod
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tech Stack
+
+- **Flutter** — UI framework
+- **Riverpod** — state management
+- **CustomPainter** — custom progress ring drawing
+- **Google Fonts** — Inter typography
+- **Material 3** — design system
+
+## Architecture
+
+Feature-first folder structure with clean separation of concerns:
