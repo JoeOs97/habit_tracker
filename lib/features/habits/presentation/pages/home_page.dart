@@ -15,6 +15,12 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final habits = ref.watch(habitProvider);
+    final doneToday = habits.where((h) => h.isDone).length;
+    final bestStreak = habits.isEmpty ? 0 :
+    habits.map((h) => h.currentStreak).reduce((a, b) => a > b ? a : b);
+    final weeklyRate = habits.isEmpty ? 0 :
+    (habits.map((h) => h.completionRate).reduce((a, b) => a + b) /
+        habits.length * 100).toInt();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -61,18 +67,20 @@ class HomePage extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
                   Expanded(
-                    child: SummaryCard(value: '4/6', label: 'Today'),
+                    child: SummaryCard(value: '$doneToday/${habits.length}', label: 'Today'),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: SummaryCard(value: '12', label: 'Best streak'),
+                    child: SummaryCard(value: '$bestStreak', label: 'Best streak'),
+
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: SummaryCard(value: '83%', label: 'This week'),
+                    child: SummaryCard(value: '$weeklyRate%', label: 'This week'),
+
                   ),
                 ],
               ),
@@ -92,7 +100,28 @@ class HomePage extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
+                child: habits.isEmpty
+                    ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.track_changes_rounded,
+                          size: 48, color: AppColors.textSecondary),
+                      SizedBox(height: 12),
+                      Text('No habits yet',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.textSecondary)),
+                      SizedBox(height: 6),
+                      Text('Tap + to add your first habit',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textSecondary)),
+                    ],
+                  ),
+                )
+                    : ListView.builder(
                   itemCount: habits.length,
                   itemBuilder: (context, index) => GestureDetector(
                     onTap: () => Navigator.push(
@@ -105,7 +134,7 @@ class HomePage extends ConsumerWidget {
                       name: habits[index].name,
                       subtitle: habits[index].subtitle,
                       progress: habits[index].progress,
-                      streak: habits[index].streak,
+                      streak: habits[index].currentStreak,
                       color: habits[index].color,
                     ),
                   ),
@@ -115,17 +144,6 @@ class HomePage extends ConsumerWidget {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Stats'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        backgroundColor: AppColors.surface,
-        selectedItemColor: AppColors.accent,
-        unselectedItemColor: AppColors.textSecondary,
-        currentIndex: 0,
       ),
     );
   }
