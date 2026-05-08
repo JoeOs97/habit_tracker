@@ -4,9 +4,9 @@ A beautifully designed habit tracking app built with Flutter. Track your daily h
 
 ## Screenshots
 
-| Home | Add Habit | Detail | Stats |
-|------|-----------|--------|-------|
-| ![img.png](img.png)![Home](screenshots/home.png) | ![img_1.png](img_1.png)![Add](screenshots/add.png) | ![img_2.png](img_2.png)![Detail](screenshots/detail.png) | ![img_3.png](img_3.png)![Stats](screenshots/stats.png) |
+| Home             | Add Habit         | Detail               | Stats |
+|------------------|-------------------|----------------------|-------|
+| ![Home](img.png) | ![Add](img_1.png) | ![Detail](img_2.png) | ![Stats](img_3.png) |
 
 ## Features
 
@@ -29,3 +29,34 @@ A beautifully designed habit tracking app built with Flutter. Track your daily h
 ## Architecture
 
 Feature-first folder structure with clean separation of concerns:
+lib/
+├── core/
+│   └── theme/              # colors and theme configuration
+├── features/
+│   └── habits/
+│       ├── data/           # models
+│       ├── presentation/
+│       │   ├── pages/      # home, add, detail, stats
+│       │   └── providers/  # Riverpod state notifiers
+└── shared/
+└── widgets/            # reusable components
+
+## Getting Started
+
+```bash
+git clone https://github.com/JoeOs97/habit_tracker.git
+cd habit_tracker
+flutter pub get
+flutter run
+```
+
+Requires Flutter 3.x and Dart 3.x.
+
+## Author
+
+Built by Youssef — Flutter developer with 2+ years of experience.
+[GitHub](https://github.com/JoeOs97)
+
+## License
+
+MIT
